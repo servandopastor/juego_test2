@@ -108,7 +108,7 @@
 <body>
     <div class="container">
         <!-- Imagen de Encabezado desde Web -->
-        <img src="[URL_DE_LA_IMAGEN]" alt="Imagen de la clase" class="header-image">
+        <img src="https://uvn-brightspot.s3.amazonaws.com/assets/vixes/btg/curiosidades.batanga.com/files/De-que-estan-hechos-los-musculos.jpg" alt="Imagen de la clase" class="header-image">
 
         <!-- Título -->
         <h1 class="section-title">Los Músculos</h1>
@@ -128,7 +128,276 @@
             <h2>Ejercicio Interactivo</h2>
             <!-- Espacio para pegar el código del ejercicio -->
             <div id="interactive-exercise">
-                [ESPACIO PARA PEGAR EL CÓDIGO DEL EJERCICIO]
+                <div id="interactive-exercise">
+    <style>
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 10px 15px;
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-size: 1em;
+        }
+
+        .option-btn:hover {
+            background: #f0f7fc;
+        }
+
+        .option-btn.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .option-btn.correct {
+            background: #2ecc71;
+            border-color: #27ae60;
+            color: white;
+        }
+
+        .option-btn.incorrect {
+            background: #e74c3c;
+            border-color: #c0392b;
+            color: white;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .check-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .check-btn:hover {
+            background: #27ae60;
+        }
+
+        .reset-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .reset-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+
+    <div class="quiz-container">
+        <div id="questions-container"></div>
+        <div class="score-display" id="scoreDisplay"></div>
+        <button class="check-btn" onclick="checkAnswers()">Verificar Respuestas</button>
+        <button class="reset-btn" onclick="resetQuiz()">Intentar de Nuevo</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "¿Qué tipo de músculos controlamos conscientemente?",
+                options: ["Músculos voluntarios", "Músculos involuntarios"],
+                correct: 0
+            },
+            {
+                question: "¿Cuál es la función principal de los músculos?",
+                options: ["Permitir el movimiento del cuerpo", "Proteger los órganos internos"],
+                correct: 0
+            },
+            {
+                question: "¿Qué sucede con los músculos cuando hacemos ejercicio regularmente?",
+                options: ["Se fortalecen y aumentan de tamaño", "Se debilitan y se hacen más pequeños"],
+                correct: 0
+            },
+            {
+                question: "¿Cuál de los siguientes es un ejemplo de músculo involuntario?",
+                options: ["Bíceps", "Corazón"],
+                correct: 1
+            },
+            {
+                question: "¿Qué tipo de músculos usamos para caminar y correr?",
+                options: ["Músculos voluntarios", "Músculos involuntarios"],
+                correct: 0
+            },
+            {
+                question: "¿Qué sucede con los músculos cuando no se usan durante mucho tiempo?",
+                options: ["Se vuelven más fuertes", "Se debilitan y pierden masa"],
+                correct: 1
+            },
+            {
+                question: "¿Cuál de los siguientes músculos se contrae para ayudar a respirar?",
+                options: ["Cuádriceps", "Diafragma"],
+                correct: 1
+            },
+            {
+                question: "¿Qué sucede cuando un músculo se contrae?",
+                options: ["Se acorta y genera movimiento", "Se estira y se relaja"],
+                correct: 0
+            }
+        ];
+
+        function createQuiz() {
+            const container = document.getElementById('questions-container');
+            questions.forEach((q, qIndex) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                let optionsHTML = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHTML += `
+                        <button class="option-btn" 
+                                onclick="selectOption(${qIndex}, ${optIndex})"
+                                data-question="${qIndex}"
+                                data-option="${optIndex}">
+                            ${opt}
+                        </button>`;
+                });
+
+                questionCard.innerHTML = `
+                    <div class="question-text">${q.question}</div>
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                    <div class="feedback"></div>
+                `;
+                
+                container.appendChild(questionCard);
+            });
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            const questionCard = document.querySelectorAll('.question-card')[questionIndex];
+            const options = questionCard.querySelectorAll('.option-btn');
+            
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[optionIndex].classList.add('selected');
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            const questionCards = document.querySelectorAll('.question-card');
+            
+            questionCards.forEach((card, index) => {
+                const selectedOption = card.querySelector('.option-btn.selected');
+                const feedback = card.querySelector('.feedback');
+                
+                if (!selectedOption) {
+                    alert('Por favor responde todas las preguntas');
+                    return;
+                }
+
+                const selectedIndex = parseInt(selectedOption.dataset.option);
+                const isCorrect = selectedIndex === questions[index].correct;
+
+                card.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.disabled = true;
+                    if (parseInt(btn.dataset.option) === questions[index].correct) {
+                        btn.classList.add('correct');
+                    } else if (btn.classList.contains('selected')) {
+                        btn.classList.add('incorrect');
+                    }
+                });
+
+                feedback.textContent = isCorrect ? '¡Correcto!' : 'Incorrecto. La respuesta correcta está marcada en verde.';
+                feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                feedback.style.display = 'block';
+
+                if (isCorrect) score++;
+            });
+
+            document.getElementById('scoreDisplay').textContent = `Puntuación: ${score} de ${questions.length}`;
+            document.getElementById('scoreDisplay').style.display = 'block';
+            document.querySelector('.check-btn').style.display = 'none';
+            document.querySelector('.reset-btn').style.display = 'block';
+        }
+
+        function resetQuiz() {
+            const questionCards = document.querySelectorAll('.question-card');
+            questionCards.forEach(card => {
+                const options = card.querySelectorAll('.option-btn');
+                options.forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                    opt.disabled = false;
+                });
+                card.querySelector('.feedback').style.display = 'none';
+            });
+
+            document.getElementById('scoreDisplay').style.display = 'none';
+            document.querySelector('.check-btn').style.display = 'block';
+            document.querySelector('.reset-btn').style.display = 'none';
+        }
+
+        // Iniciar el juego
+        createQuiz();
+    </script>
+</div>
             </div>
         </div>
 
