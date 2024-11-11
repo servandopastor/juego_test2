@@ -108,7 +108,7 @@
 <body>
     <div class="container">
         <!-- Imagen de Encabezado desde Web -->
-        <img src="[URL_DE_LA_IMAGEN]" alt="Imagen de la clase" class="header-image">
+        <img src="https://doctoriborra.com/wp-content/uploads/2022/03/lesiones-de-musculos-y-ligamentos-de-pie-y-tobillo.jpg.webp" alt="Imagen de la clase" class="header-image">
 
         <!-- Título -->
         <h1 class="section-title">Sistema Nervioso y Respuesta a Estímulos</h1>
@@ -128,7 +128,298 @@
             <h2>Ejercicio Interactivo</h2>
             <!-- Espacio para pegar el código del ejercicio -->
             <div id="interactive-exercise">
-                [ESPACIO PARA PEGAR EL CÓDIGO DEL EJERCICIO]
+                <div id="interactive-exercise">
+    <style>
+        .sequence-game {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .scenario {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .scenario-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .scenario-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .steps-container {
+            min-height: 400px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        .step {
+            background: #fff;
+            border: 2px solid #3498db;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 6px;
+            cursor: move;
+            user-select: none;
+            position: relative;
+        }
+
+        .step:hover {
+            background: #f0f7fc;
+        }
+
+        .step.dragging {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+
+        .step.correct {
+            border-color: #2ecc71;
+            background: #d4edda;
+        }
+
+        .step.incorrect {
+            border-color: #e74c3c;
+            background: #f8d7da;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            margin-right: 10px;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        .check-btn {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .check-btn:hover {
+            background: #27ae60;
+        }
+
+        .switch-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .switch-btn:hover {
+            background: #2980b9;
+        }
+
+        .reset-btn {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+
+    <div class="sequence-game">
+        <div id="currentScenario" class="scenario">
+            <div id="scenarioTitle" class="scenario-title"></div>
+            <div id="scenarioDescription" class="scenario-description"></div>
+            <div class="steps-container" id="stepsContainer"></div>
+            <div class="feedback" id="feedback"></div>
+            <div class="controls">
+                <button class="btn check-btn" onclick="checkSequence()">Verificar Orden</button>
+                <button class="btn switch-btn" onclick="switchScenario()">Cambiar Escenario</button>
+                <button class="btn reset-btn" onclick="resetCurrentScenario()">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = [
+            {
+                title: "Escenario 1: Tocando un objeto caliente",
+                description: "Una persona toca accidentalmente una superficie muy caliente, como una olla en la estufa. El sistema nervioso reacciona rápidamente para proteger al cuerpo y evitar una quemadura grave.",
+                steps: [
+                    "Receptores de la piel en los dedos detectan una temperatura extremadamente alta.",
+                    "Señal de dolor es enviada a través de los nervios sensoriales hacia la médula espinal.",
+                    "La médula espinal envía una respuesta automática (reflejo) de retirada al músculo de la mano.",
+                    "La mano se aparta del objeto caliente antes de que la señal llegue al cerebro.",
+                    "La señal llega al cerebro, donde se procesa la sensación de dolor.",
+                    "El cerebro envía una señal al sistema nervioso para iniciar una respuesta de alivio.",
+                    "La persona sopla sobre los dedos o aplica agua fría para aliviar la sensación de quemadura."
+                ]
+            },
+            {
+                title: "Escenario 2: Escuchando un sonido fuerte inesperado",
+                description: "Una persona está concentrada leyendo en una biblioteca, y de repente escucha un sonido fuerte, como una silla que cae al suelo. El sistema nervioso debe procesar rápidamente la información y decidir cómo reaccionar.",
+                steps: [
+                    "Receptores auditivos en el oído captan el sonido fuerte y lo convierten en una señal eléctrica.",
+                    "La señal viaja a través de los nervios auditivos hacia el cerebro.",
+                    "El cerebro procesa la información y evalúa si el sonido representa una amenaza.",
+                    "El cerebro envía una señal al sistema nervioso autónomo, activando una respuesta de alerta.",
+                    "El corazón late más rápido y los músculos se tensan, preparando el cuerpo para una posible reacción.",
+                    "La persona gira la cabeza hacia la dirección del sonido para identificar la fuente.",
+                    "El cerebro confirma que el sonido fue solo una silla que cayó, y envía una señal para que el cuerpo se relaje.",
+                    "El sistema nervioso regula la respiración y el ritmo cardíaco, volviendo al estado normal de calma."
+                ]
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+        let originalOrder = [];
+
+        function createSteps() {
+            const container = document.getElementById('stepsContainer');
+            const scenario = scenarios[currentScenarioIndex];
+            
+            document.getElementById('scenarioTitle').textContent = scenario.title;
+            document.getElementById('scenarioDescription').textContent = scenario.description;
+            
+            // Guardar orden original
+            originalOrder = [...scenario.steps];
+            
+            // Crear y mezclar pasos
+            const shuffledSteps = [...scenario.steps].sort(() => Math.random() - 0.5);
+            
+            container.innerHTML = '';
+            shuffledSteps.forEach((step, index) => {
+                const stepElement = document.createElement('div');
+                stepElement.className = 'step';
+                stepElement.draggable = true;
+                stepElement.innerHTML = `
+                    <span class="step-number">${index + 1}</span>
+                    ${step}
+                `;
+                stepElement.dataset.step = step;
+                container.appendChild(stepElement);
+            });
+
+            setupDragAndDrop();
+        }
+
+        function setupDragAndDrop() {
+            const steps = document.querySelectorAll('.step');
+            const container = document.getElementById('stepsContainer');
+
+            steps.forEach(step => {
+                step.addEventListener('dragstart', () => {
+                    step.classList.add('dragging');
+                });
+
+                step.addEventListener('dragend', () => {
+                    step.classList.remove('dragging');
+                });
+            });
+
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const draggable = document.querySelector('.dragging');
+                const siblings = [...container.querySelectorAll('.step:not(.dragging)')];
+                
+                const nextSibling = siblings.find(sibling => {
+                    const box = sibling.getBoundingClientRect();
+                    const offset = e.clientY - box.top - box.height / 2;
+                    return offset < 0;
+                });
+                
+                container.insertBefore(draggable, nextSibling);
+                updateStepNumbers();
+            });
+        }
+
+        function updateStepNumbers() {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                const numberSpan = step.querySelector('.step-number');
+                numberSpan.textContent = index + 1;
+            });
+        }
+
+        function checkSequence() {
+            const currentOrder = [...document.querySelectorAll('.step')].map(step => step.dataset.step);
+            const feedback = document.getElementById('feedback');
+            let allCorrect = true;
+
+            currentOrder.forEach((step, index) => {
+                const stepElement = document.querySelectorAll('.step')[index];
+                if (step === originalOrder[index]) {
+                    stepElement.classList.add('correct');
+                    stepElement.classList.remove('incorrect');
+                } else {
+                    stepElement.classList.add('incorrect');
+                    stepElement.classList.remove('correct');
+                    allCorrect = false;
+                }
+            });
+
+            feedback.textContent = allCorrect ? 
+                '¡Correcto! Has ordenado la secuencia correctamente.' : 
+                'Hay algunos pasos en orden incorrecto. Intenta de nuevo.';
+            feedback.className = `feedback ${allCorrect ? 'correct' : 'incorrect'}`;
+            feedback.style.display = 'block';
+        }
+
+        function switchScenario() {
+            currentScenarioIndex = (currentScenarioIndex + 1) % scenarios.length;
+            createSteps();
+            document.getElementById('feedback').style.display = 'none';
+        }
+
+        function resetCurrentScenario() {
+            createSteps();
+            document.getElementById('feedback').style.display = 'none';
+        }
+
+        // Iniciar el juego
+        createSteps();
+    </script>
+</div>
             </div>
         </div>
 
