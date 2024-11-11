@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase - Anatomía y Salud</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .header-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .development-question {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        textarea:disabled {
+            background-color: #f8f9fa;
+            border-color: #ccc;
+            color: #666;
+        }
+
+        .submit-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .submit-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+        }
+
+        /* Espacio para el ejercicio interactivo */
+        #interactive-exercise {
+            border: 2px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Imagen de Encabezado desde Web -->
+        <img src="[URL_DE_LA_IMAGEN]" alt="Imagen de la clase" class="header-image">
+
+        <!-- Título -->
+        <h1 class="section-title">Título de la Clase</h1>
+
+        <!-- Introducción -->
+        <div class="section">
+            <h2>Introducción</h2>
+            <div class="introduction">
+                <p>[Primer párrafo de introducción]</p>
+                <p>[Segundo párrafo de introducción]</p>
+                <p>[Tercer párrafo de introducción]</p>
+            </div>
+        </div>
+
+        <!-- Ejercicio Interactivo -->
+        <div class="section">
+            <h2>Ejercicio Interactivo</h2>
+            <!-- Espacio para pegar el código del ejercicio -->
+            <div id="interactive-exercise">
+                [ESPACIO PARA PEGAR EL CÓDIGO DEL EJERCICIO]
+            </div>
+        </div>
+
+        <!-- Preguntas de Desarrollo -->
+        <div class="section">
+            <h2>Preguntas de Desarrollo</h2>
+            <form id="developmentQuestions" onsubmit="submitAnswers(event)">
+                <div class="development-question">
+                    <h3>Pregunta 1</h3>
+                    <p>[Texto de la primera pregunta]</p>
+                    <textarea 
+                        name="answer1" 
+                        id="answer1" 
+                        placeholder="Escribe tu respuesta aquí..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="development-question">
+                    <h3>Pregunta 2</h3>
+                    <p>[Texto de la segunda pregunta]</p>
+                    <textarea 
+                        name="answer2" 
+                        id="answer2" 
+                        placeholder="Escribe tu respuesta aquí..."
+                        required
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Enviar Respuestas</button>
+            </form>
+        </div>
+
+        <!-- Navegación -->
+        <a href="../index.html" class="nav-btn">Volver al Inicio</a>
+    </div>
+
+    <script>
+        function submitAnswers(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitButton = form.querySelector('.submit-btn');
+            const textareas = form.querySelectorAll('textarea');
+
+            // Verificar que todas las preguntas tengan respuesta
+            let allAnswered = true;
+            textareas.forEach(textarea => {
+                if (!textarea.value.trim()) {
+                    allAnswered = false;
+                }
+            });
+
+            if (!allAnswered) {
+                alert('Por favor, responde todas las preguntas antes de enviar.');
+                return;
+            }
+
+            // Deshabilitar el formulario
+            submitButton.disabled = true;
+            textareas.forEach(textarea => {
+                textarea.disabled = true;
+            });
+
+            // Mostrar mensaje de confirmación
+            alert('¡Respuestas enviadas con éxito! Ya no podrás modificarlas.');
+        }
+
+        // Prevenir salir de la página si hay respuestas sin enviar
+        window.onbeforeunload = function() {
+            const textareas = document.querySelectorAll('textarea');
+            let hasUnsavedContent = false;
+
+            textareas.forEach(textarea => {
+                if (textarea.value.trim() && !textarea.disabled) {
+                    hasUnsavedContent = true;
+                }
+            });
+
+            if (hasUnsavedContent) {
+                return "Tienes respuestas sin enviar. ¿Estás seguro de que quieres salir?";
+            }
+        };
+    </script>
+</body>
+</html>
