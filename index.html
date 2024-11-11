@@ -1,126 +1,289 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Juego Simple</title>
+    <title>Guía de Estudio: El Esqueleto Humano</title>
     <style>
-        #gameContainer {
-            width: 400px;
-            height: 400px;
-            border: 2px solid black;
-            position: relative;
-            overflow: hidden;
-            background: #f0f0f0;
-        }
-        #player {
-            width: 50px;
-            height: 50px;
-            background-color: blue;
-            position: absolute;
-            bottom: 0;
-            left: 175px;
-        }
-        #target {
-            width: 30px;
-            height: 30px;
-            background-color: red;
-            position: absolute;
-            border-radius: 50%;
-        }
-        #score {
-            font-size: 24px;
-            margin: 10px;
+        body {
             font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        .button {
-            font-size: 18px;
-            margin: 10px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .exercise {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
             padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .progress {
+            width: 0%;
+            height: 20px;
+            background-color: #2ecc71;
+            border-radius: 5px;
+            transition: width 0.5s ease-in-out;
+        }
+        .matching-exercise {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .matching-item {
+            padding: 10px;
+            margin: 5px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .matching-item.selected {
+            background-color: #3498db;
+            color: white;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .canvas-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        #drawingCanvas {
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        .tool-panel {
+            margin: 10px 0;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <div id="score">Puntos: 0</div>
-    <div id="gameContainer">
-        <div id="player"></div>
-        <div id="target"></div>
+    <div class="container">
+        <h1 class="section-title">El Esqueleto Humano</h1>
+        
+        <div class="section">
+            <h2>Introducción</h2>
+            <p>El esqueleto humano es una estructura biológica fascinante que proporciona soporte, protección y movimiento al cuerpo...</p>
+            <div class="progress-bar">
+                <div id="progressBar" class="progress"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Ejercicio 1: Asociación de Estructuras</h2>
+            <div id="matchingExercise">
+                <div class="matching-exercise">
+                    <div class="matching-item" onclick="selectItem(this, 'structure')">Cráneo</div>
+                    <div class="matching-item" onclick="selectItem(this, 'function')">Protege el cerebro</div>
+                </div>
+                <div class="matching-exercise">
+                    <div class="matching-item" onclick="selectItem(this, 'structure')">Caja torácica</div>
+                    <div class="matching-item" onclick="selectItem(this, 'function')">Protege corazón y pulmones</div>
+                </div>
+                <div class="matching-exercise">
+                    <div class="matching-item" onclick="selectItem(this, 'structure')">Columna vertebral</div>
+                    <div class="matching-item" onclick="selectItem(this, 'function')">Protege la médula espinal</div>
+                </div>
+            </div>
+            <div id="matchingFeedback" class="feedback"></div>
+        </div>
+
+        <div class="section">
+            <h2>Ejercicio 2: Reflexión</h2>
+            <p>¿Por qué es importante que el esqueleto sea tanto resistente como flexible?</p>
+            <textarea id="reflection" placeholder="Escribe tu reflexión aquí..."></textarea>
+            <button class="btn" onclick="saveReflection()">Guardar Reflexión</button>
+        </div>
+
+        <div class="section">
+            <h2>Ejercicio 3: Dibujo Anatómico</h2>
+            <div class="canvas-container">
+                <canvas id="drawingCanvas" width="400" height="500"></canvas>
+                <div class="tool-panel">
+                    <button class="btn" onclick="clearCanvas()">Limpiar</button>
+                    <button class="btn" onclick="toggleEraser()">Borrador</button>
+                    <input type="color" id="colorPicker" onchange="changeColor(this.value)">
+                </div>
+            </div>
+        </div>
     </div>
-    <button class="button" onclick="resetGame()">Reiniciar Juego</button>
 
     <script>
-        let score = 0;
-        let player = document.getElementById('player');
-        let target = document.getElementById('target');
-        let gameContainer = document.getElementById('gameContainer');
-        let playerSpeed = 20;
-        let targetSpeed = 2;
-        let targetPosition = 0;
-        let gameLoop;
+        let progress = 0;
+        let selectedStructure = null;
+        let selectedFunction = null;
+        let isDrawing = false;
+        let isEraser = false;
+        let ctx;
+        let lastX = 0;
+        let lastY = 0;
 
-        function movePlayer(event) {
-            let playerPosition = parseInt(player.style.left || '175');
-            
-            if (event.key === 'ArrowLeft' && playerPosition > 0) {
-                player.style.left = (playerPosition - playerSpeed) + 'px';
+        // Inicialización
+        window.onload = function() {
+            setupCanvas();
+            updateProgress();
+        };
+
+        function setupCanvas() {
+            const canvas = document.getElementById('drawingCanvas');
+            ctx = canvas.getContext('2d');
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+        }
+
+        function toggleEraser() {
+            isEraser = !isEraser;
+            ctx.strokeStyle = isEraser ? '#FFFFFF' : document.getElementById('colorPicker').value;
+        }
+
+        function changeColor(color) {
+            if (!isEraser) {
+                ctx.strokeStyle = color;
             }
-            if (event.key === 'ArrowRight' && playerPosition < gameContainer.offsetWidth - player.offsetWidth) {
-                player.style.left = (playerPosition + playerSpeed) + 'px';
+        }
+
+        function selectItem(element, type) {
+            // Deseleccionar items previos del mismo tipo
+            document.querySelectorAll(`.matching-item.selected`).forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            
+            if (type === 'structure') {
+                selectedStructure = element.textContent;
+            } else {
+                selectedFunction = element.textContent;
+            }
+
+            if (selectedStructure && selectedFunction) {
+                checkMatch();
             }
         }
 
-        function moveTarget() {
-            targetPosition += targetSpeed;
-            target.style.top = targetPosition + 'px';
-            
-            // Verificar colisión
-            if (isCollision()) {
-                score += 1;
-                document.getElementById('score').textContent = 'Puntos: ' + score;
-                resetTarget();
-                increaseSpeed();
+        function checkMatch() {
+            const matches = {
+                'Cráneo': 'Protege el cerebro',
+                'Caja torácica': 'Protege corazón y pulmones',
+                'Columna vertebral': 'Protege la médula espinal'
+            };
+
+            const feedback = document.getElementById('matchingFeedback');
+            if (matches[selectedStructure] === selectedFunction) {
+                feedback.textContent = '¡Correcto!';
+                feedback.className = 'feedback correct';
+                progress += 20;
+                updateProgress();
+            } else {
+                feedback.textContent = 'Intenta de nuevo';
+                feedback.className = 'feedback incorrect';
             }
-            
-            // Si el objetivo sale de la pantalla
-            if (targetPosition > gameContainer.offsetHeight) {
-                resetTarget();
+
+            selectedStructure = null;
+            selectedFunction = null;
+        }
+
+        function saveReflection() {
+            const reflection = document.getElementById('reflection').value;
+            if (reflection.length > 50) {
+                progress += 20;
+                updateProgress();
+                alert('¡Reflexión guardada!');
+            } else {
+                alert('Por favor, escribe una reflexión más detallada (mínimo 50 caracteres).');
             }
         }
 
-        function isCollision() {
-            let playerRect = player.getBoundingClientRect();
-            let targetRect = target.getBoundingClientRect();
-            
-            return !(playerRect.right < targetRect.left || 
-                    playerRect.left > targetRect.right || 
-                    playerRect.bottom < targetRect.top || 
-                    playerRect.top > targetRect.bottom);
+        function updateProgress() {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = `${Math.min(progress, 100)}%`;
         }
-
-        function resetTarget() {
-            targetPosition = 0;
-            target.style.top = targetPosition + 'px';
-            target.style.left = Math.random() * (gameContainer.offsetWidth - target.offsetWidth) + 'px';
-        }
-
-        function increaseSpeed() {
-            targetSpeed += 0.2;
-        }
-
-        function resetGame() {
-            score = 0;
-            targetSpeed = 2;
-            document.getElementById('score').textContent = 'Puntos: ' + score;
-            resetTarget();
-            player.style.left = '175px';
-        }
-
-        function startGame() {
-            resetTarget();
-            document.addEventListener('keydown', movePlayer);
-            gameLoop = setInterval(moveTarget, 20);
-        }
-
-        startGame();
     </script>
 </body>
 </html>
