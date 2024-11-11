@@ -108,7 +108,7 @@
 <body>
     <div class="container">
         <!-- Imagen de Encabezado desde Web -->
-        <img src="[URL_DE_LA_IMAGEN]" alt="Imagen de la clase" class="header-image">
+        <img src="https://d2lcsjo4hzzyvz.cloudfront.net/blog/wp-content/uploads/2020/01/16210245/Consejos-y-recomendaciones-para-cuidar-los-huesos.jpg" alt="Imagen de la clase" class="header-image">
 
         <!-- Título -->
         <h1 class="section-title">Cuidado de los Huesos</h1>
@@ -128,7 +128,230 @@
             <h2>Ejercicio Interactivo</h2>
             <!-- Espacio para pegar el código del ejercicio -->
             <div id="interactive-exercise">
-                [ESPACIO PARA PEGAR EL CÓDIGO DEL EJERCICIO]
+                <div id="interactive-exercise">
+    <style>
+        .true-false-game {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .statement-container {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .statement-container:hover {
+            background: #e9ecef;
+        }
+
+        .options {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 8px 16px;
+            border: 2px solid #3498db;
+            background: white;
+            color: #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .option-btn.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .check-answers-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .check-answers-btn:hover {
+            background: #27ae60;
+        }
+
+        .statement-container.correct {
+            border-color: #2ecc71;
+            background: #d4edda;
+        }
+
+        .statement-container.incorrect {
+            border-color: #e74c3c;
+            background: #f8d7da;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.correct {
+            color: #2ecc71;
+        }
+
+        .feedback.incorrect {
+            color: #e74c3c;
+        }
+
+        .reset-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            display: none;
+        }
+
+        .reset-btn:hover {
+            background: #7f8c8d;
+        }
+    </style>
+
+    <div class="true-false-game">
+        <div id="statements">
+            <!-- Las afirmaciones se generarán aquí -->
+        </div>
+        <button class="check-answers-btn" onclick="checkAnswers()">Verificar Respuestas</button>
+        <button class="reset-btn" onclick="resetGame()">Jugar de Nuevo</button>
+    </div>
+
+    <script>
+        const statements = [
+            {
+                text: "Comer alimentos con azúcar fortalece los huesos.",
+                isTrue: false
+            },
+            {
+                text: "El calcio es esencial para mantener los huesos fuertes y saludables.",
+                isTrue: true
+            },
+            {
+                text: "La actividad física no tiene ningún efecto sobre la salud de los huesos.",
+                isTrue: false
+            },
+            {
+                text: "La exposición moderada al sol ayuda al cuerpo a producir vitamina D, necesaria para los huesos.",
+                isTrue: true
+            },
+            {
+                text: "La vitamina D ayuda al cuerpo a absorber el calcio, lo cual es crucial para la salud ósea.",
+                isTrue: true
+            },
+            {
+                text: "Los ejercicios de resistencia, como levantar pesas, pueden fortalecer los huesos.",
+                isTrue: true
+            },
+            {
+                text: "Los rayos X no tienen ningún riesgo y se pueden usar sin límite.",
+                isTrue: false
+            },
+            {
+                text: "Solo los adultos necesitan preocuparse por la salud de sus huesos.",
+                isTrue: false
+            }
+        ];
+
+        function createStatements() {
+            const container = document.getElementById('statements');
+            statements.forEach((statement, index) => {
+                const statementDiv = document.createElement('div');
+                statementDiv.className = 'statement-container';
+                statementDiv.innerHTML = `
+                    <p>${statement.text}</p>
+                    <div class="options">
+                        <button class="option-btn" onclick="selectOption(${index}, true)">Verdadero</button>
+                        <button class="option-btn" onclick="selectOption(${index}, false)">Falso</button>
+                    </div>
+                    <div class="feedback"></div>
+                `;
+                container.appendChild(statementDiv);
+            });
+        }
+
+        function selectOption(index, isTrue) {
+            const statementDiv = document.querySelectorAll('.statement-container')[index];
+            const options = statementDiv.querySelectorAll('.option-btn');
+            
+            options.forEach(option => option.classList.remove('selected'));
+            options[isTrue ? 0 : 1].classList.add('selected');
+        }
+
+        function checkAnswers() {
+            const statementDivs = document.querySelectorAll('.statement-container');
+            let allCorrect = true;
+
+            statementDivs.forEach((div, index) => {
+                const selectedOption = div.querySelector('.option-btn.selected');
+                const feedback = div.querySelector('.feedback');
+                
+                if (!selectedOption) {
+                    alert('Por favor responde todas las afirmaciones');
+                    return;
+                }
+
+                const userAnswer = selectedOption.textContent === 'Verdadero';
+                const isCorrect = userAnswer === statements[index].isTrue;
+
+                div.classList.remove('correct', 'incorrect');
+                div.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+                feedback.textContent = isCorrect ? '¡Correcto!' : 'Incorrecto';
+                feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+                feedback.style.display = 'block';
+
+                if (!isCorrect) allCorrect = false;
+            });
+
+            document.querySelector('.check-answers-btn').style.display = 'none';
+            document.querySelector('.reset-btn').style.display = 'block';
+
+            if (allCorrect) {
+                alert('¡Felicitaciones! Todas las respuestas son correctas');
+            }
+        }
+
+        function resetGame() {
+            const statementDivs = document.querySelectorAll('.statement-container');
+            statementDivs.forEach(div => {
+                div.classList.remove('correct', 'incorrect');
+                div.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+                div.querySelector('.feedback').style.display = 'none';
+            });
+
+            document.querySelector('.check-answers-btn').style.display = 'block';
+            document.querySelector('.reset-btn').style.display = 'none';
+        }
+
+        // Iniciar el juego
+        createStatements();
+    </script>
+</div>
             </div>
         </div>
 
