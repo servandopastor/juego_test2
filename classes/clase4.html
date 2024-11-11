@@ -128,7 +128,146 @@
             <h2>Ejercicio Interactivo</h2>
             <!-- Espacio para pegar el código del ejercicio -->
             <div id="interactive-exercise">
-                [ESPACIO PARA PEGAR EL CÓDIGO DEL EJERCICIO]
+             <script>
+        const sentences = [
+            {
+                text: "Los __________ conectan los músculos a los huesos y permiten que el cuerpo se mueva.",
+                options: ["tendones", "ligamentos", "articulaciones"],
+                correct: "tendones"
+            },
+            {
+                text: "Las __________ permiten el movimiento entre los huesos en distintas partes del cuerpo.",
+                options: ["tendones", "articulaciones", "ligamentos"],
+                correct: "articulaciones"
+            },
+            {
+                text: "Los __________ proporcionan estabilidad y evitan el movimiento excesivo en las articulaciones.",
+                options: ["ligamentos", "tendones", "articulaciones"],
+                correct: "ligamentos"
+            },
+            {
+                text: "Las __________ se encuentran en áreas como las rodillas y los codos, permitiendo flexión y extensión.",
+                options: ["ligamentos", "articulaciones", "tendones"],
+                correct: "articulaciones"
+            },
+            {
+                text: "Los __________ ayudan a evitar que los huesos se desplacen en exceso dentro de la articulación.",
+                options: ["tendones", "ligamentos", "articulaciones"],
+                correct: "ligamentos"
+            },
+            {
+                text: "Los __________ son más flexibles que los huesos y se encargan de conectar los músculos para el movimiento.",
+                options: ["tendones", "ligamentos", "articulaciones"],
+                correct: "tendones"
+            }
+        ];
+
+        function createGame() {
+            const container = document.getElementById('sentences');
+            
+            sentences.forEach((sentence, index) => {
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-container';
+                
+                const sentenceText = sentence.text.replace('__________', 
+                    `<div class="dropzone" data-index="${index}"></div>`);
+                
+                sentenceDiv.innerHTML = `
+                    <div class="sentence">${sentenceText}</div>
+                    <div class="options-container">
+                        ${sentence.options.map(option => 
+                            `<div class="draggable" draggable="true">${option}</div>`
+                        ).join('')}
+                    </div>
+                    <div class="feedback"></div>
+                `;
+                
+                container.appendChild(sentenceDiv);
+            });
+
+            setupDragAndDrop();
+        }
+
+        function setupDragAndDrop() {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropzones = document.querySelectorAll('.dropzone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                });
+            });
+
+            dropzones.forEach(dropzone => {
+                dropzone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    dropzone.classList.add('hover');
+                });
+
+                dropzone.addEventListener('dragleave', () => {
+                    dropzone.classList.remove('hover');
+                });
+
+                dropzone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    dropzone.classList.remove('hover');
+                    const draggable = document.querySelector('.dragging');
+                    dropzone.textContent = draggable.textContent;
+                });
+            });
+        }
+
+        function checkAnswers() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            let allCorrect = true;
+
+            dropzones.forEach(dropzone => {
+                const index = dropzone.dataset.index;
+                const answer = dropzone.textContent;
+                const correct = sentences[index].correct;
+                
+                dropzone.classList.remove('correct', 'incorrect');
+                dropzone.classList.add(answer === correct ? 'correct' : 'incorrect');
+                
+                const feedback = dropzone.closest('.sentence-container').querySelector('.feedback');
+                feedback.textContent = answer === correct ? 
+                    '¡Correcto!' : `Incorrecto. La respuesta correcta es: ${correct}`;
+                feedback.className = `feedback ${answer === correct ? 'correct' : 'incorrect'}`;
+                feedback.style.display = 'block';
+
+                if (answer !== correct) allCorrect = false;
+            });
+
+            document.querySelector('.check-btn').style.display = 'none';
+            document.querySelector('.reset-btn').style.display = 'block';
+
+            if (allCorrect) {
+                alert('¡Felicitaciones! Todas las respuestas son correctas');
+            }
+        }
+
+        function resetGame() {
+            const dropzones = document.querySelectorAll('.dropzone');
+            dropzones.forEach(dropzone => {
+                dropzone.textContent = '';
+                dropzone.classList.remove('correct', 'incorrect');
+            });
+
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+
+            document.querySelector('.check-btn').style.display = 'block';
+            document.querySelector('.reset-btn').style.display = 'none';
+        }
+
+        // Iniciar el juego
+        createGame();
+    </script>
             </div>
         </div>
 
