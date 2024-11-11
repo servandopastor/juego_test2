@@ -1,289 +1,222 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Guía de Estudio: El Esqueleto Humano</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Anatomía y Salud</title>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #2c3e50;
+            --background-color: #f5f7fa;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
+
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background-color: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .section-title {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .exercise {
-            background-color: #f8f9fa;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 5px;
-        }
-        .hidden {
-            display: none;
-        }
-        .btn {
-            background-color: #3498db;
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
         }
-        .btn:hover {
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .class-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .class-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h2 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+
+        .objective {
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .objective h3 {
+            color: var(--secondary-color);
+            margin: 0 0 5px 0;
+            font-size: 1em;
+        }
+
+        .objective p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .start-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .start-btn:hover {
             background-color: #2980b9;
         }
-        .progress-bar {
-            width: 100%;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        .progress {
-            width: 0%;
-            height: 20px;
-            background-color: #2ecc71;
-            border-radius: 5px;
-            transition: width 0.5s ease-in-out;
-        }
-        .matching-exercise {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-        }
-        .matching-item {
-            padding: 10px;
-            margin: 5px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .matching-item.selected {
-            background-color: #3498db;
-            color: white;
-        }
-        .feedback {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .feedback.correct {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .feedback.incorrect {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .canvas-container {
-            text-align: center;
-            margin: 20px 0;
-        }
-        #drawingCanvas {
-            border: 1px solid #ddd;
-            background-color: white;
-        }
-        .tool-panel {
-            margin: 10px 0;
-        }
-        textarea {
-            width: 100%;
-            min-height: 100px;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+
+        @media (max-width: 768px) {
+            .class-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 15px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>Anatomía y Salud</h1>
+        <p>Explora y aprende sobre el cuerpo humano</p>
+    </div>
+
     <div class="container">
-        <h1 class="section-title">El Esqueleto Humano</h1>
-        
-        <div class="section">
-            <h2>Introducción</h2>
-            <p>El esqueleto humano es una estructura biológica fascinante que proporciona soporte, protección y movimiento al cuerpo...</p>
-            <div class="progress-bar">
-                <div id="progressBar" class="progress"></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Ejercicio 1: Asociación de Estructuras</h2>
-            <div id="matchingExercise">
-                <div class="matching-exercise">
-                    <div class="matching-item" onclick="selectItem(this, 'structure')">Cráneo</div>
-                    <div class="matching-item" onclick="selectItem(this, 'function')">Protege el cerebro</div>
-                </div>
-                <div class="matching-exercise">
-                    <div class="matching-item" onclick="selectItem(this, 'structure')">Caja torácica</div>
-                    <div class="matching-item" onclick="selectItem(this, 'function')">Protege corazón y pulmones</div>
-                </div>
-                <div class="matching-exercise">
-                    <div class="matching-item" onclick="selectItem(this, 'structure')">Columna vertebral</div>
-                    <div class="matching-item" onclick="selectItem(this, 'function')">Protege la médula espinal</div>
+        <div class="class-grid">
+            <div class="class-card">
+                <div class="card-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                <div class="card-content">
+                    <h2>El Esqueleto Humano</h2>
+                    <div class="objective">
+                        <h3>Objetivo:</h3>
+                        <p>Reconocer las diferentes estructuras que componen el esqueleto</p>
+                    </div>
+                    <a href="classes/clase1.html" class="start-btn">Comenzar</a>
                 </div>
             </div>
-            <div id="matchingFeedback" class="feedback"></div>
-        </div>
 
-        <div class="section">
-            <h2>Ejercicio 2: Reflexión</h2>
-            <p>¿Por qué es importante que el esqueleto sea tanto resistente como flexible?</p>
-            <textarea id="reflection" placeholder="Escribe tu reflexión aquí..."></textarea>
-            <button class="btn" onclick="saveReflection()">Guardar Reflexión</button>
-        </div>
+            <div class="class-card">
+                <div class="card-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                <div class="card-content">
+                    <h2>Cuidado de los Huesos</h2>
+                    <div class="objective">
+                        <h3>Objetivo:</h3>
+                        <p>Identificar las imágenes de rayos X como herramientas de diagnóstico</p>
+                    </div>
+                    <a href="classes/clase2.html" class="start-btn">Comenzar</a>
+                </div>
+            </div>
 
-        <div class="section">
-            <h2>Ejercicio 3: Dibujo Anatómico</h2>
-            <div class="canvas-container">
-                <canvas id="drawingCanvas" width="400" height="500"></canvas>
-                <div class="tool-panel">
-                    <button class="btn" onclick="clearCanvas()">Limpiar</button>
-                    <button class="btn" onclick="toggleEraser()">Borrador</button>
-                    <input type="color" id="colorPicker" onchange="changeColor(this.value)">
+            <div class="class-card">
+                <div class="card-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                <div class="card-content">
+                    <h2>Los Músculos</h2>
+                    <div class="objective">
+                        <h3>Objetivo:</h3>
+                        <p>Comprender cómo los músculos permiten el movimiento a través de la contracción y relajación</p>
+                    </div>
+                    <a href="classes/clase3.html" class="start-btn">Comenzar</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                <div class="card-content">
+                    <h2>Articulaciones, Tendones y Ligamentos</h2>
+                    <div class="objective">
+                        <h3>Objetivo:</h3>
+                        <p>Identificar cómo las estructuras conectan y facilitan el movimiento del cuerpo</p>
+                    </div>
+                    <a href="classes/clase4.html" class="start-btn">Comenzar</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                <div class="card-content">
+                    <h2>Sistema Nervioso</h2>
+                    <div class="objective">
+                        <h3>Objetivo:</h3>
+                        <p>Identificar cómo el sistema nervioso controla las respuestas corporales</p>
+                    </div>
+                    <a href="classes/clase5.html" class="start-btn">Comenzar</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-image" style="background-image: url('/api/placeholder/400/200')"></div>
+                <div class="card-content">
+                    <h2>Efectos del Alcohol en el Organismo</h2>
+                    <div class="objective">
+                        <h3>Objetivo:</h3>
+                        <p>Analizar los efectos físicos y sociales del alcohol en el cuerpo y la mente</p>
+                    </div>
+                    <a href="classes/clase6.html" class="start-btn">Comenzar</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        let progress = 0;
-        let selectedStructure = null;
-        let selectedFunction = null;
-        let isDrawing = false;
-        let isEraser = false;
-        let ctx;
-        let lastX = 0;
-        let lastY = 0;
-
-        // Inicialización
-        window.onload = function() {
-            setupCanvas();
-            updateProgress();
-        };
-
-        function setupCanvas() {
-            const canvas = document.getElementById('drawingCanvas');
-            ctx = canvas.getContext('2d');
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-
-            canvas.addEventListener('mousedown', startDrawing);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseout', stopDrawing);
-        }
-
-        function startDrawing(e) {
-            isDrawing = true;
-            [lastX, lastY] = [e.offsetX, e.offsetY];
-        }
-
-        function draw(e) {
-            if (!isDrawing) return;
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-            [lastX, lastY] = [e.offsetX, e.offsetY];
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-        }
-
-        function clearCanvas() {
-            ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
-        }
-
-        function toggleEraser() {
-            isEraser = !isEraser;
-            ctx.strokeStyle = isEraser ? '#FFFFFF' : document.getElementById('colorPicker').value;
-        }
-
-        function changeColor(color) {
-            if (!isEraser) {
-                ctx.strokeStyle = color;
-            }
-        }
-
-        function selectItem(element, type) {
-            // Deseleccionar items previos del mismo tipo
-            document.querySelectorAll(`.matching-item.selected`).forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            element.classList.add('selected');
-            
-            if (type === 'structure') {
-                selectedStructure = element.textContent;
-            } else {
-                selectedFunction = element.textContent;
-            }
-
-            if (selectedStructure && selectedFunction) {
-                checkMatch();
-            }
-        }
-
-        function checkMatch() {
-            const matches = {
-                'Cráneo': 'Protege el cerebro',
-                'Caja torácica': 'Protege corazón y pulmones',
-                'Columna vertebral': 'Protege la médula espinal'
-            };
-
-            const feedback = document.getElementById('matchingFeedback');
-            if (matches[selectedStructure] === selectedFunction) {
-                feedback.textContent = '¡Correcto!';
-                feedback.className = 'feedback correct';
-                progress += 20;
-                updateProgress();
-            } else {
-                feedback.textContent = 'Intenta de nuevo';
-                feedback.className = 'feedback incorrect';
-            }
-
-            selectedStructure = null;
-            selectedFunction = null;
-        }
-
-        function saveReflection() {
-            const reflection = document.getElementById('reflection').value;
-            if (reflection.length > 50) {
-                progress += 20;
-                updateProgress();
-                alert('¡Reflexión guardada!');
-            } else {
-                alert('Por favor, escribe una reflexión más detallada (mínimo 50 caracteres).');
-            }
-        }
-
-        function updateProgress() {
-            const progressBar = document.getElementById('progressBar');
-            progressBar.style.width = `${Math.min(progress, 100)}%`;
-        }
-    </script>
 </body>
 </html>
